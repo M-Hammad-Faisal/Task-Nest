@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{% if "signup" in request.path %}Sign Up{% else %}Login{% endif %}{% endblock %}
 {% block content %}
 <div class="container py-4 d-flex flex-column justify-content-center align-items-center">
+    <img class="rounded-circle p-3" src="{% static 'TaskNest.ico' %}" width="200" height="200" alt="Task Net Logo">
     <h1 class="fw-semibold text-primary mb-4">{% if "signup" in request.path %}Sign Up{% else %}Login{% endif %}</h1>
     <form method="post" class="p-3 w-25">
         {% csrf_token %}
