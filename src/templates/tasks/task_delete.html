@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Delete Task: {{ task.title }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-semibold text-primary mb-4">Delete Task: {{ task.title }}</h1>
+    <p class="text-dark mb-3">Are you sure?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row g-2">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-sm me-2">Yes</button>
+                <a href="{% url 'task_detail' task.id %}" class="btn btn-sm text-primary">No</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
