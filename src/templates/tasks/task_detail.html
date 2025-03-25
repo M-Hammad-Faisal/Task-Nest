@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}{{ task.title }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-semibold text-primary mb-4">{{ task.title }}</h1>
+    <div class="mb-4">
+        <h3 class="fw-medium text-dark mb-2">Description:</h3>
+        <div class="text-dark">{{ task.description|default:"No description" }}</div>
+        <small class="text-muted d-block mt-1">
+            Status:
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <select name="status" onchange="this.form.submit()" class="form-select d-inline" style="width: auto; min-width: 300px;">
+                    {% for status, label in task.STATUS_CHOICES %}
+                        <option value="{{ status }}" {% if task.status == status %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+            <p class="py-2">Priority: {{ task.priority }} | Due: {{ task.due_date|default:"None" }} | Assignee: {{ task.assignee|default:"Unassigned" }} | Team: {{ task.team|default:"None" }} | Tags: {{ task.tags|default:"None" }}<p/>
+        </small>
+        {% if task.creator == user or task.assignee == user %}<a href="{% url 'task_edit' task.id %}" class="btn btn-primary btn-sm mt-2 me-2">Edit</a>{% endif %}
+        {% if task.creator == user %}<a href="{% url 'task_delete' task.id %}" class="btn btn-sm text-primary mt-2">Delete</a>{% endif %}
+    </div>
+    <h3 class="fw-medium text-dark mb-2">Attachments</h3>
+    <ul class="list-group mb-4">
+        {% for attachment in task.attachments.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ attachment.file.url }}" class="text-primary">{{ attachment.file.name }}</a>
+                <small class="text-muted">{{ attachment.uploaded_by }} - {{ attachment.uploaded_at|date:"M d, H:i" }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted text-center">No attachments</li>
+        {% endfor %}
+    </ul>
+    <form method="post" enctype="multipart/form-data" class="mb-4">
+        {% csrf_token %}
+        {{ attachment_form.file }}
+        <input type="hidden" name="attachment" value="1">
+        <div class="row g-2">
+            <div class="col-12"><button type="submit" class="btn btn-primary btn-sm mt-2">+ Upload</button></div>
+        </div>
+    </form>
+    <h3 class="fw-medium text-dark mb-2">Comments</h3>
+    <ul class="list-group mb-4" id="comment-list">
+        {% for comment in task.comments.all %}
+            <li class="list-group-item"><span class="text-dark">{{ comment.content }}</span><small class="text-muted d-block">{{ comment.user }} - {{ comment.created_at|date:"M d, H:i" }}</small></li>
+        {% empty %}
+            <li class="list-group-item text-muted text-center">No comments</li>
+        {% endfor %}
+    </ul>
+    <form method="post" id="comment-form">
+        {% csrf_token %}
+        {{ form.content }}
+        <input type="hidden" name="comment" value="1">
+        <div class="row g-2">
+            <div class="col-12"><button type="submit" class="btn btn-primary btn-sm mt-2">+ Comment</button></div>
+        </div>
+    </form>
+</div>
+<script>
+    const ws = new WebSocket(`ws://localhost:8000/ws/tasks/{{ task.id }}/`);
+    ws.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        if (data.message.type === "task_update") {
+            document.querySelector("select[name='status']").value = data.message.task.status;
+        } else if (data.message.type === "comment") {
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+            li.innerHTML = `<span class="text-dark">${data.message.comment.content}</span><small class="text-muted d-block">${data.message.comment.user} - ${new Date(data.message.comment.created_at).toLocaleString('en-US', {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}</small>`;
+            document.getElementById("comment-list").appendChild(li);
+        }
+    };
+</script>
+{% endblock %}

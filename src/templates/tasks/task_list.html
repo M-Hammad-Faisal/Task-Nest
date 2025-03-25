@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% block title %}Tasks{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-semibold text-primary mb-4">Task List</h1>
+    <ul class="list-group mb-4">
+        {% for task in tasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{% url 'task_detail' task.id %}" class="text-primary">{{ task.title }}</a>
+                    <small class="text-muted d-block">Status: {{ task.status|snake_to_title }} | Priority: {{ task.priority|snake_to_title }} | Assignee: {{ task.assignee|default:"Unassigned" }} | Team: {{ task.team|default:"None" }} | Tags: {{ task.tags|default:"None" }}</small>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted text-center">No tasks</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'task_create' %}" class="btn btn-primary btn-sm">+ Task</a>
+</div>
+{% endblock %}
