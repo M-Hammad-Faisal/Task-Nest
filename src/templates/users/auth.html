@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{% if "signup" in request.path %}Sign Up{% else %}Login{% endif %}{% endblock %}
+{% block content %}
+<div class="container py-4 d-flex flex-column justify-content-center align-items-center">
+    <h1 class="fw-semibold text-primary mb-4">{% if "signup" in request.path %}Sign Up{% else %}Login{% endif %}</h1>
+    <form method="post" class="p-3 w-25">
+        {% csrf_token %}
+        {% if "signup" in request.path %}
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="role">{{ form.role.label }}</label>
+            <select class="form-select col-12 col-md-3 rounded" id="role" name="role" required><
+                <option value="admin">Admin</option>
+                <option value="manager">Manager</option>
+                <option value="member">Member</option>
+            </select>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="first_name">{{ form.first_name.label }}</label>
+            <input class="form-control col-12 col-md-3 rounded" id="first_name" name="first_name" type="text" required/>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="last_name">{{ form.last_name.label }}</label>
+            <input class="form-control col-12 col-md-3 rounded" id="last_name" name="last_name" type="text"
+                   required/>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="email">{{ form.email.label }}</label>
+            <input class="form-control col-12 col-md-3 rounded" id="email" name="email" type="email"
+                   aria-describedby="emailHelp" required/>
+        </div>
+        {% endif %}
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="username">{{ form.username.label }}</label>
+            <input class="form-control col-12 col-md-3 mb-3 rounded" type="text" id="username" name="username"/>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="password1">{{ form.password.label }}</label>
+            <input class="form-control col-12 col-md-3 mb-3 rounded" id="password1" type="password" name="password"/>
+        </div>
+        {% if "signup" in request.path %}
+        <div class="col-12 mb-3">
+            <label class="col-12 text-dark" for="password2">{{ form.password2.label }}</label>
+            <input class="form-control col-12 col-md-3 mb-3 rounded" type="password" id="password2" name="password2"/>
+        </div>
+        {% endif %}
+        <div class="text-center col-12 mb-3">
+            <button type="submit" class="btn btn-primary rounded btn-sm">
+                {% if "signup" in request.path %}Sign Up{% else %}Login{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
