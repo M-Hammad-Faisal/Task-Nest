@@ -1,7 +1,6 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import Task, Comment
 
 
 class TaskConsumer(AsyncWebsocketConsumer):
@@ -37,6 +36,7 @@ class TaskConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def update_task(self, task_data):
+        from .models import Task
         task = Task.objects.get(id=self.task_id)
         task.status = task_data.get("status", task.status)
         task.priority = task_data.get("priority", task.priority)
@@ -44,6 +44,7 @@ class TaskConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def add_comment(self, comment_data):
+        from .models import Comment
         Comment.objects.create(
             task_id=self.task_id,
             user=self.scope["user"],

@@ -22,10 +22,10 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
-ENV SECRET_KEY "Lxdhj3dF7xSIyO8qkVwly63Qg55c95i9qfFbMwewxZn0n3TQRV"
-ENV DJANGO_SETTINGS_MODULE="task_manager.settings"
+ENV SECRET_KEY "pxIo8w7Stbz8vhFIBRCJgYhIs1zoRD5kAa7mQmnqTGureqbh5D"
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
+RUN pip install daphne
 
-CMD ["gunicorn","--bind","0.0.0.0:8000","--workers","2","--worker-class","uvicorn.workers.UvicornWorker","task_manager.asgi:application"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "task_manager.asgi:application"]
