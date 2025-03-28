@@ -6,7 +6,16 @@ from ..users.models import CustomUser
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "description", "priority", "status", "due_date", "assignee", "team", "tags"]
+        fields = [
+            "title",
+            "description",
+            "priority",
+            "status",
+            "due_date",
+            "assignee",
+            "team",
+            "tags",
+        ]
         widgets = {
             "due_date": forms.DateTimeInput(attrs={"type": "datetime-local"}),
         }
@@ -15,7 +24,9 @@ class TaskForm(forms.ModelForm):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         if user:
-            self.fields["assignee"].queryset = CustomUser.objects.filter(teams__in=user.teams.all()).distinct()
+            self.fields["assignee"].queryset = CustomUser.objects.filter(
+                teams__in=user.teams.all()
+            ).distinct()
             self.fields["team"].queryset = user.teams.all()
 
 

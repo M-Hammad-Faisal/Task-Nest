@@ -6,7 +6,15 @@ from .models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ("username", "email", "first_name", "last_name", "role", "password", "password2")
+        fields = (
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "role",
+            "password",
+            "password2",
+        )
 
 
 class ProfileForm(forms.ModelForm):

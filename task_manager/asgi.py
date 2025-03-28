@@ -6,11 +6,11 @@ import src.apps.tasks.routing
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
 
-application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
-        URLRouter(
-            src.apps.tasks.routing.websocket_urlpatterns
-        )
-    ),
-})
+application = ProtocolTypeRouter(
+    {
+        "http": get_asgi_application(),
+        "websocket": AuthMiddlewareStack(
+            URLRouter(src.apps.tasks.routing.websocket_urlpatterns)
+        ),
+    }
+)

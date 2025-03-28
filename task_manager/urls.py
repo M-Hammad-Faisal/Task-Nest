@@ -21,10 +21,13 @@ urlpatterns = [
     path("teams/", user_views.team_list, name="team_list"),
     path("teams/create/", user_views.team_create, name="team_create"),
     path("teams/join/", user_views.team_join, name="team_join"),
-    path("notifications/", notification_views.notification_list, name="notification_list"),
+    path(
+        "notifications/", notification_views.notification_list, name="notification_list"
+    ),
     path(
         "notifications/<int:notification_id>/read",
         notification_views.notification_read,
-        name="notification_read"),
+        name="notification_read",
+    ),
     path("profile/", user_views.profile, name="profile"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

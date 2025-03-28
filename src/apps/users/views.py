@@ -54,7 +54,9 @@ def team_create(request):
             team = Team.objects.create(
                 name=team_name,
                 owner=request.user,
-                invite_code=get_random_string(8, allowed_chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+                invite_code=get_random_string(
+                    8, allowed_chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                ),
             )
             team.members.add(request.user)
             messages.success(request, f"Team '{team.name}' created successfully!")

@@ -6,7 +6,9 @@ load_dotenv(".env")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "3-0g@h@#601(y*ff_a8%knwnaud@bx+zc03q7yqry1l#tnh1%_")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "3-0g@h@#601(y*ff_a8%knwnaud@bx+zc03q7yqry1l#tnh1%_"
+)
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -32,7 +34,7 @@ INSTALLED_APPS = [
     "channels",
     "src.apps.users",
     "src.apps.tasks",
-    "src.apps.notifications"
+    "src.apps.notifications",
 ]
 
 ASGI_APPLICATION = "task_manager.asgi.application"
@@ -80,7 +82,7 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 

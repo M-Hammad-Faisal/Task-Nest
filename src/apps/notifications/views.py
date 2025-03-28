@@ -5,13 +5,21 @@ from .models import Notification
 
 @login_required(login_url="login")
 def notification_list(request):
-    notifications = Notification.objects.filter(user=request.user).order_by("-created_at")
-    return render(request, "notifications/notification_list.html", {"notifications": notifications})
+    notifications = Notification.objects.filter(user=request.user).order_by(
+        "-created_at"
+    )
+    return render(
+        request,
+        "notifications/notification_list.html",
+        {"notifications": notifications},
+    )
 
 
 @login_required(login_url="login")
 def notification_read(request, notification_id=None):
-    notification = Notification.objects.filter(user=request.user, id=notification_id, is_read=False).first()
+    notification = Notification.objects.filter(
+        user=request.user, id=notification_id, is_read=False
+    ).first()
     if notification:
         notification.is_read = True
         notification.save()

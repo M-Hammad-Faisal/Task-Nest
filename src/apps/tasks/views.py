@@ -18,7 +18,9 @@ def home(request):
 
 @login_required(login_url="login")
 def dashboard(request):
-    tasks = Task.objects.filter(assignee=request.user) | Task.objects.filter(creator=request.user)
+    tasks = Task.objects.filter(assignee=request.user) | Task.objects.filter(
+        creator=request.user
+    )
     teams = request.user.teams.all()
 
     # Search and Filter
@@ -47,8 +49,14 @@ def dashboard(request):
         "reopened": tasks.filter(status="reopened").count(),
         "overdue": tasks.filter(due_date__lt=timezone.now()).count(),
     }
-    team_stats = [{"name": team.name, "total": team.tasks.count(), "closed": team.tasks.filter(status="closed").count()}
-                  for team in teams]
+    team_stats = [
+        {
+            "name": team.name,
+            "total": team.tasks.count(),
+            "closed": team.tasks.filter(status="closed").count(),
+        }
+        for team in teams
+    ]
     categories = tasks.values_list("tags", flat=True).distinct()
     context = {
         "tasks": tasks,
@@ -83,7 +91,7 @@ def task_detail(request, task_id):
                     Notification.objects.create(
                         user=task.assignee,
                         task=task,
-                        message=f"{request.user.username} commented on '{task.title}'"
+                        message=f"{request.user.username} commented on '{task.title}'",
                     )
                     send_mail(
                         subject=f"New Comment on {task.title}",
@@ -98,8 +106,11 @@ def task_detail(request, task_id):
                         "type": "broadcast_update",
                         "message": {
                             "type": "comment",
-                            "comment": {"user": str(request.user), "content": comment.content,
-                                        "created_at": comment.created_at.isoformat()},
+                            "comment": {
+                                "user": str(request.user),
+                                "content": comment.content,
+                                "created_at": comment.created_at.isoformat(),
+                            },
                         },
                     },
                 )
@@ -112,7 +123,7 @@ def task_detail(request, task_id):
                 Notification.objects.create(
                     user=task.assignee,
                     task=task,
-                    message=f"{request.user.username} updated '{task.title}' to {status}"
+                    message=f"{request.user.username} updated '{task.title}' to {status}",
                 )
                 send_mail(
                     subject=f"Task Status Updated: {task.title}",
@@ -140,7 +151,7 @@ def task_detail(request, task_id):
                     Notification.objects.create(
                         user=task.assignee,
                         task=task,
-                        message=f"{request.user.username} added an attachment to '{task.title}'"
+                        message=f"{request.user.username} added an attachment to '{task.title}'",
                     )
                     send_mail(
                         subject=f"New Attachment on {task.title}",
@@ -153,7 +164,11 @@ def task_detail(request, task_id):
     else:
         form = CommentForm()
         attachment_form = AttachmentForm()
-    return render(request, "tasks/task_detail.html", {"task": task, "form": form, "attachment_form": attachment_form})
+    return render(
+        request,
+        "tasks/task_detail.html",
+        {"task": task, "form": form, "attachment_form": attachment_form},
+    )
 
 
 @login_required(login_url="login")
@@ -167,9 +182,13 @@ def task_create(request):
             return redirect("dashboard")
     else:
         form = TaskForm(user=request.user)
-    return render(request, "tasks/task_create.html", {
-        "form": form,
-    })
+    return render(
+        request,
+        "tasks/task_create.html",
+        {
+            "form": form,
+        },
+    )
 
 
 @login_required(login_url="login")
@@ -187,7 +206,7 @@ def task_edit(request, task_id):
                 Notification.objects.create(
                     user=updated_task.assignee,
                     task=updated_task,
-                    message=f"{request.user.username} updated '{updated_task.title}'"
+                    message=f"{request.user.username} updated '{updated_task.title}'",
                 )
                 send_mail(
                     subject=f"Task Updated: {updated_task.title}",

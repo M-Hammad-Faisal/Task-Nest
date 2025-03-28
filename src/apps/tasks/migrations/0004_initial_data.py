@@ -15,6 +15,4 @@ class Migration(migrations.Migration):
         ("tasks", "0003_alter_task_assignee_alter_task_category_and_more"),
     ]
 
-    operations = [
-        migrations.RunPython(add_initial_data)
-    ]
+    operations = [migrations.RunPython(add_initial_data)]

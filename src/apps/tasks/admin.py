@@ -3,7 +3,15 @@ from .models import Task, Comment, Attachment
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("title", "status", "priority", "due_date", "creator", "assignee", "team")
+    list_display = (
+        "title",
+        "status",
+        "priority",
+        "due_date",
+        "creator",
+        "assignee",
+        "team",
+    )
     list_filter = ("status", "priority", "team")
     search_fields = ("title", "description")
 
