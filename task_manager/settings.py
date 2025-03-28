@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.core.management import utils
 from dotenv import load_dotenv
 
 load_dotenv(".env")
@@ -7,7 +8,7 @@ load_dotenv(".env")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get(
-    "SECRET_KEY", "3-0g@h@#601(y*ff_a8%knwnaud@bx+zc03q7yqry1l#tnh1%_"
+    "SECRET_KEY", utils.get_random_secret_key()
 )
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
