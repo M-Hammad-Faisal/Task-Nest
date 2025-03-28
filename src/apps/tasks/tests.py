@@ -8,7 +8,8 @@ from src.apps.tasks.models import Task, Comment, Attachment
 
 class TaskTests(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username="testuser", email="test@example.com", password="testpass123")
+        self.user = CustomUser.objects.create_user(username="testuser", email="test@example.com",
+                                                   password="testpass123")
         self.client.login(username="testuser", password="testpass123")
         self.task = Task.objects.create(
             title="Test Task",

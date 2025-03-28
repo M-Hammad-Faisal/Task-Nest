@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 
 import task_manager.settings
-from .models import Task, Comment
+from .models import Task
 from .forms import TaskForm, CommentForm, AttachmentForm
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
