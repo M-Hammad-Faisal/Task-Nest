@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from django.core.management import utils
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv(".env")
 
@@ -79,12 +80,7 @@ TEMPLATES = [
     },
 ]
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
-}
+DATABASES = {"default": dj_database_url.config(default="sqlite:////code/db.sqlite3")}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
