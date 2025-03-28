@@ -1,7 +1,7 @@
-# src/apps/tasks/tests.py
 from django.test import TestCase
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
+
 from src.apps.users.models import CustomUser
 from src.apps.tasks.models import Task, Comment, Attachment
 
@@ -52,7 +52,7 @@ class TaskTests(TestCase):
                 "title": "Updated Task",
                 "description": "Updated Description",
                 "priority": "low",
-                "status": "resolved",  # Changed from "done" to "resolved"
+                "status": "resolved",
                 "tags": "bug, fixed",
             },
         )
@@ -85,15 +85,10 @@ class TaskTests(TestCase):
         file = SimpleUploadedFile("test.txt", b"Test content")
         response = self.client.post(
             reverse("task_detail", args=[self.task.id]),
-            {
-                "attachment": "1",
-                "file": file,
-            },
+            {"attachment": "1", "file": file},
             format="multipart",
         )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(
-            Attachment.objects.filter(
-                task=self.task, file__endswith="test.txt"
-            ).exists()
+            Attachment.objects.filter(task=self.task, file__iregex="test_[a-z0-9]*.txt").exists()
         )

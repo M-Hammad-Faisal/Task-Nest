@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 from src.apps.users.models import CustomUser, Team
 
-
 class UserTests(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(
@@ -18,7 +17,10 @@ class UserTests(TestCase):
             reverse("signup"),
             {
                 "username": "newuser",
-                "email": "new@example.com",
+                "email": "testing@example.com",
+                "first_name": "Test",
+                "last_name": "User",
+                "role": "admin",
                 "password1": "newpass123",
                 "password2": "newpass123",
             },
@@ -50,15 +52,14 @@ class UserTests(TestCase):
         self.assertTrue(Team.objects.filter(name="New Team").exists())
 
     def test_team_join(self):
-        self.client.login(username="testuser", password="testpass123")
         new_user = CustomUser.objects.create_user(
             username="joiner", email="join@example.com", password="joinpass123"
         )
-        self.client.login(username=new_user.username, password=new_user.password)
+        self.client.login(username="joiner", password="joinpass123")
         response = self.client.post(reverse("team_join"), {"invite_code": "TEST1234"})
         self.assertEqual(response.status_code, 302)
         self.assertTrue(
             Team.objects.get(invite_code="TEST1234")
-            .members.filter(username=new_user.username)
+            .members.filter(username="joiner")
             .exists()
         )
