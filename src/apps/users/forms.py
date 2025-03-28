@@ -12,7 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
             "first_name",
             "last_name",
             "role",
-            "password",
+            "password1",
             "password2",
         )
 
