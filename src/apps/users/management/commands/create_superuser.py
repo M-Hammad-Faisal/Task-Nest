@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from src.apps.users.models import CustomUser
 
+
 class Command(BaseCommand):
     help = "Sets up an initial superuser"
 
