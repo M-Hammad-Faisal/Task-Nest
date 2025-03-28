@@ -93,5 +93,5 @@ class TaskTests(TestCase):
         self.assertIsNotNone(attachment, "No attachment saved")
         self.assertTrue(
             "test" in attachment.file.name,
-            f"Unexpected filename: {attachment.file.name}"
+            f"Unexpected filename: {attachment.file.name}",
         )
