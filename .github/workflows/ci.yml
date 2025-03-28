@@ -34,8 +34,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Create directories
-      run: mkdir -p media/task_attachments && mkdir static
+    - name: Create media directories
+      run: mkdir -p media/task_attachments
 
     - name: Run Tests
       env:
