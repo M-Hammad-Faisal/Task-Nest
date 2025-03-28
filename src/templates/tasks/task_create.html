@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}New Task{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-semibold text-primary mb-4">New Task</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row g-2 mb-3">
+            <label class="col-6 text-dark" for="title">{{ form.title.label }}</label>
+            <input class="col-6 form-control" type="text" name="title" id="title" required>
+
+            <label class="col-12 text-dark" for="description">{{ form.description.label }}</label>
+            <textarea class="form-control" cols="30" rows="8" name="description" id="description" required></textarea>
+
+            <label class="col-12 text-dark" for="priority">{{ form.priority.label }}</label>
+            <select name="priority" id="priority" class="form-select col-12 d-inline"
+                    style="width: auto; min-width: 300px;" required>
+                {% for priority, label in form.priority.field.choices %}
+                <option value="{{ priority }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="col-12 text-dark" for="status">{{ form.status.label }}</label>
+            <select name="status" id="status" class="form-select col-12 d-inline"
+                    style="width: auto; min-width: 300px;" required>
+                {% for status, label in form.status.field.choices %}
+                <option value="{{ status }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="col-12 text-dark" for="assignee">{{ form.assignee.label }}</label>
+            <select name="assignee" id="assignee" class="form-select col-12 d-inline"
+                    style="width: auto; min-width: 300px;" required>
+                {% for assignee in form.assignee.field.queryset %}
+                <option value="{{ assignee.id }}">{{ assignee }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="col-12 text-dark" for="team">{{ form.team.label }}</label>
+            <select name="team" id="team" class="form-select col-12 d-inline"
+                    style="width: auto; min-width: 300px;" required>
+                {% for team in form.team.field.queryset %}
+                <option value="{{ team.id }}">{{ team }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="col-12 text-dark" for="due_date">{{ form.due_date.label }}</label>
+            <input type="datetime-local" class="form-control col-12" style="width: auto; min-width: 300px;"
+                   name="due_date" id="due_date" required>
+
+            <label class="col-12 text-dark" for="tags">{{ form.tags.label }}</label>
+            <input class="form-control col-12" type="text" name="tags" id="tags" value="">
+
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-sm">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

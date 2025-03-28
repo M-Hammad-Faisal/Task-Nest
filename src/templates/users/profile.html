@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-semibold text-primary mb-4">Profile</h1>
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <div>
+                <h3 class="fw-medium text-dark mb-3">Edit Profile</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-2 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label class="text-dark" for="first_name">{{ form.first_name.label }}</label>
+                            <input class="form-control col-12 col-md-3 rounded"
+                                   style="background-color: var(--primary); color: var(--background);" type="text"
+                                   name="first_name" id="first_name"
+                                   value="{{ form.first_name.value }}">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="text-dark" for="last_name">{{ form.last_name.label }}</label>
+                            <input class="form-control col-12 col-md-3 rounded" type="text"
+                                   name="last_name" id="last_name"
+                                   value="{{ form.last_name.value }}">
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <a href="{% url 'dashboard' %}" class="btn btn-sm btn-secondary ms-2">Back to Dashboard</a>
+                            <button type="submit" class="btn btn-secondary btn-sm">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="row">
+                <h3 class="col-12 fw-medium text-dark mb-3">Details</h3>
+                <div class="mb-3">
+                    <label class="text-dark">Email</label>
+                    <p class="text-dark">{{ user.email }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-dark">Username</label>
+                    <p class="text-dark">{{ user.username }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-dark">Account Status</label>
+                    <p class="{% if user.is_verified == True %}text-success{% else %}text-danger{% endif %}">
+                        {% if user.is_verified == True %}V{% else %}Unv{% endif %}erified</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-dark">Role</label>
+                    <p class="text-dark">{{ user.role|snake_to_title }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-dark">Date Joined</label>
+                    <p class="text-dark">{{ user.date_joined|date:"M d, Y" }}</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

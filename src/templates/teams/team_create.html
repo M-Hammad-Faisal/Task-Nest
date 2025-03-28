@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Create Team{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="fw-semibold text-primary mb-4">Create Team</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="g-2 mb-3">
+            <div class="col-12">
+                <label class="text-dark" for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control form-control-sm" required>
+            </div>
+        </div>
+        <div class="g-2">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-sm">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
