@@ -90,5 +90,7 @@ class TaskTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(
-            Attachment.objects.filter(task=self.task, file__iregex="test_[a-z0-9]*.txt").exists()
+            Attachment.objects.filter(
+                task=self.task, file__iregex="test_[a-z0-9]*.txt"
+            ).exists()
         )

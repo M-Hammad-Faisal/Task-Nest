@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from src.apps.users.models import CustomUser, Team
 
+
 class UserTests(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(
@@ -52,7 +53,7 @@ class UserTests(TestCase):
         self.assertTrue(Team.objects.filter(name="New Team").exists())
 
     def test_team_join(self):
-        new_user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username="joiner", email="join@example.com", password="joinpass123"
         )
         self.client.login(username="joiner", password="joinpass123")
