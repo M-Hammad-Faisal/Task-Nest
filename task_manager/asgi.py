@@ -7,13 +7,11 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
 
 django_asgi_app = get_asgi_application()
 
-from src.apps.tasks import routing
+from src.apps.tasks import routing  # noqa: E402
 
 application = ProtocolTypeRouter(
     {
         "http": django_asgi_app,
-        "websocket": AuthMiddlewareStack(
-            URLRouter(routing.websocket_urlpatterns)
-        ),
+        "websocket": AuthMiddlewareStack(URLRouter(routing.websocket_urlpatterns)),
     }
 )
