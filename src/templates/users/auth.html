@@ -5,7 +5,7 @@
 <div class="container py-4 d-flex flex-column justify-content-center align-items-center">
     <img class="rounded-circle p-3" src="{% static 'TaskNest.ico' %}" width="200" height="200" alt="Task Net Logo">
     <h1 class="fw-semibold text-primary mb-4">{% if "signup" in request.path %}Sign Up{% else %}Login{% endif %}</h1>
-    <form method="post" class="p-3 w-25">
+    <form method="post" class="p-3 w-100" style="max-width: 400px;">
         {% csrf_token %}
         <div class="col-12 mb-3">
             <label class="col-12 text-dark" for="username">{{ form.username.label }}</label>
