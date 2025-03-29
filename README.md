@@ -4,6 +4,9 @@ A sleek, minimalist task management web application built with Django, designed 
 Featuring a professional yet cool UI with real-time updates, team-based task assignments, notifications, and a clean,
 responsive design, Task Manager streamlines workflows with simplicity and style.
 
+## Live Demo
+[Click here to view the live app](https://task-nest.fly.dev/)
+
 ## Features
 
 - __Task Management__: Create, edit, delete, and track tasks with statuses (Open, In Progress, Resolved, Closed,
@@ -108,9 +111,17 @@ responsive design, Task Manager streamlines workflows with simplicity and style.
 - __Admin__: Manage users, tasks, and teams at `/admin/` (superuser only).
 
 ## Screenshots
+<p align="center">
+  <img src="static/Homepage.png" alt="Homepage">
+  <br>
+  <em><strong>TaskNest - Homepage</strong></em>
+</p>
 
-[Homepage](./static/Homepage.png)
-[Dashboard](./static/dashboard.png)
+<p align="center">
+  <img src="static/dashboard.png" alt="Dashboard">
+  <br>
+  <em><strong>TaskNest - Dashboard</strong></em>
+</p>
 
 ## Testing
 
